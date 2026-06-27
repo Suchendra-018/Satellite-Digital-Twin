@@ -1,0 +1,23 @@
+# Virtual Environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+
+# Saved models
+*.h5
+*.keras
+*.pkl
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store
