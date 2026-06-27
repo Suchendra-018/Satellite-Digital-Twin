@@ -47,7 +47,14 @@ class Predictor:
         elif isinstance(sample, pd.Series):
             sample = sample.to_frame().T
 
-        return sample[FEATURE_COLUMNS]
+        sample = sample[FEATURE_COLUMNS].copy()
+
+        for col in FEATURE_COLUMNS:
+            sample[col] = pd.to_numeric(sample[col], errors="coerce")
+
+        sample = sample.astype(float)
+
+        return sample
 
     def predict(self, sample, model="xgb"):
 
