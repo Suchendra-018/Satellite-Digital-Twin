@@ -10,7 +10,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATASET_DIR = PROJECT_ROOT / "datasets"
 MODEL_DIR = PROJECT_ROOT / "saved_models"
 
-TRAIN_PATH = DATASET_DIR / "train.csv"
+TRAIN_PATH = DATASET_DIR / "train_balanced.csv"
 TEST_PATH = DATASET_DIR / "test.csv"
 DEMO_PATH = DATASET_DIR / "demo.csv"
 

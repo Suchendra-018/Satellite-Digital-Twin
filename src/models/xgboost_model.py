@@ -16,12 +16,25 @@ X_train, y_train = split_features_target(train)
 X_test, y_test = split_features_target(test)
 
 model = XGBClassifier(
-    objective="multi:softmax",
+    objective="multi:softprob",
     num_class=7,
-    n_estimators=200,
-    max_depth=8,
-    learning_rate=0.1,
+    eval_metric="mlogloss",
+
+    n_estimators=500,
+    learning_rate=0.05,
+    max_depth=10,
+
+    min_child_weight=2,
+    gamma=0.2,
+
+    subsample=0.9,
+    colsample_bytree=0.9,
+
+    reg_alpha=0.2,
+    reg_lambda=2.0,
+
     random_state=42,
+    tree_method="hist",
 )
 
 model.fit(X_train, y_train)
