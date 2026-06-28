@@ -10,7 +10,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATASET_DIR = PROJECT_ROOT / "datasets"
 MODEL_DIR = PROJECT_ROOT / "saved_models"
 
-TRAIN_PATH = DATASET_DIR / "train_balanced.csv"
+TRAIN_PATH = DATASET_DIR / "train.csv"
 TEST_PATH = DATASET_DIR / "test.csv"
 DEMO_PATH = DATASET_DIR / "demo.csv"
 
@@ -37,7 +37,7 @@ FEATURE_COLUMNS = [
 
 
 def load_dataset(path):
-    return pd.read_csv(path)
+    return pd.read_csv(path, low_memory=False)
 
 
 def fit_scaler(train_df):

@@ -1,5 +1,4 @@
 from pathlib import Path
-
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -7,15 +6,24 @@ DATASET_DIR = PROJECT_ROOT / "datasets"
 
 
 def load_train():
-    return pd.read_csv(DATASET_DIR / "train_scaled.csv")
+    return pd.read_csv(
+        DATASET_DIR / "train_scaled.csv",
+        low_memory=False
+    )
 
 
 def load_test():
-    return pd.read_csv(DATASET_DIR / "test_scaled.csv")
+    return pd.read_csv(
+        DATASET_DIR / "test_scaled.csv",
+        low_memory=False
+    )
 
 
 def load_demo():
-    return pd.read_csv(DATASET_DIR / "demo_scaled.csv")
+    return pd.read_csv(
+        DATASET_DIR / "demo_scaled.csv",
+        low_memory=False
+    )
 
 
 FEATURE_COLUMNS = [
@@ -47,6 +55,7 @@ def split_features_target(df):
 
 
 if __name__ == "__main__":
+
     train = load_train()
     test = load_test()
 

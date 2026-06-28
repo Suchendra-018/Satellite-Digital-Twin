@@ -3,14 +3,12 @@ import pandas as pd
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-
-DATASET = PROJECT_ROOT / "datasets" / "demo.csv"
-
+from src.data.dataset import load_demo
 
 class SatelliteSimulator:
 
     def __init__(self):
-        self.df = pd.read_csv(DATASET)
+        self.df = load_demo()
         self.index = 0
 
     def reset(self):
