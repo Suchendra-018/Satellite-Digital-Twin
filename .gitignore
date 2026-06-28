@@ -1,23 +1,59 @@
-# Virtual Environment
+# ==========================
+# Python
+# ==========================
 .venv/
-
-# Python cache
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
 
 # Jupyter
 .ipynb_checkpoints/
 
-# Environment variables
+# Python environment
 .env
+.env.*
 
-# Saved models
+# ==========================
+# Machine Learning
+# ==========================
 *.h5
 *.keras
 *.pkl
+*.joblib
+*.onnx
 
+# ==========================
+# Node / React
+# ==========================
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================
 # VS Code
+# ==========================
 .vscode/
 
-# macOS
+# ==========================
+# Operating System
+# ==========================
 .DS_Store
+Thumbs.db
+
+# ==========================
+# Testing
+# ==========================
+.coverage
+.pytest_cache/
+htmlcov/
+
+# ==========================
+# Misc
+# ==========================
+*.log
