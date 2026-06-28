@@ -1,0 +1,51 @@
+.telemetry-cards {
+
+    display: grid;
+
+    grid-template-columns: repeat(6, 1fr);
+
+    gap: 18px;
+
+    margin-top: 30px;
+
+}
+
+.telemetry-card {
+
+    background: #111827;
+
+    border: 1px solid rgba(255, 255, 255, .08);
+
+    border-radius: 16px;
+
+    padding: 18px;
+
+    transition: .3s;
+
+}
+
+.telemetry-card:hover {
+
+    border-color: #2563eb;
+
+}
+
+.telemetry-card span {
+
+    display: block;
+
+    color: #94a3b8;
+
+    font-size: 13px;
+
+    margin-bottom: 10px;
+
+}
+
+.telemetry-card h3 {
+
+    color: white;
+
+    font-size: 22px;
+
+}

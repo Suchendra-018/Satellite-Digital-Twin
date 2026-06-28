@@ -4,6 +4,8 @@ import joblib
 import pandas as pd
 import tensorflow as tf
 
+from src.data.dataset import FEATURE_COLUMNS
+
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 MODEL_DIR = PROJECT_ROOT / "saved_models"
@@ -12,24 +14,6 @@ RF_MODEL = MODEL_DIR / "random_forest.pkl"
 XGB_MODEL = MODEL_DIR / "xgboost.pkl"
 LSTM_MODEL = MODEL_DIR / "lstm.keras"
 
-FEATURE_COLUMNS = [
-    "OrbitPhase (%)",
-    "Sunlight (0 or 1)",
-    "BusVoltage (V)",
-    "BusCurrent (A)",
-    "BatteryVoltage (V)",
-    "BatteryTemperature (°C)",
-    "BatterySOC (%)",
-    "SolarVoltage (V)",
-    "SolarCurrent (A)",
-    "WheelRPM (RPM)",
-    "WheelTemperature (°C)",
-    "CPUUsage (%)",
-    "CPUTemperature (°C)",
-    "SignalStrength (dBm)",
-    "GyroMagnitude (deg/s)",
-    "Altitude (km)"
-]
 
 
 class Predictor:
@@ -82,9 +66,9 @@ class Predictor:
 
 if __name__ == "__main__":
 
-    from src.data.dataset import load_demo
+    from src.data.dataset import load_demo_scaled
 
-    demo = load_demo()
+    demo = load_demo_scaled()
 
     sample = demo.iloc[[0]]
 

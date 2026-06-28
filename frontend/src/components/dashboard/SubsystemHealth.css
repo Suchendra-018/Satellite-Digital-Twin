@@ -1,0 +1,79 @@
+.subsystem-health {
+
+    background: #111827;
+
+    border: 1px solid rgba(255, 255, 255, .08);
+
+    border-radius: 18px;
+
+    padding: 22px;
+
+    min-height: 340px;
+
+}
+
+.subsystem-header {
+
+    margin-bottom: 25px;
+
+}
+
+.subsystem-header h3 {
+
+    color: white;
+
+    font-size: 20px;
+
+}
+
+.subsystem-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+
+}
+
+.system-card {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+}
+
+.circle {
+
+    width: 72px;
+
+    height: 72px;
+
+    border-radius: 50%;
+
+    border: 6px solid #22c55e;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    color: white;
+
+    font-weight: 600;
+
+    margin-bottom: 12px;
+
+}
+
+.system-card span {
+
+    color: #cbd5e1;
+
+    font-size: 14px;
+
+}

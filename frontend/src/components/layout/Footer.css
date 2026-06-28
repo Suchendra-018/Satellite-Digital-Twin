@@ -1,0 +1,19 @@
+.footer {
+
+    margin-top: 40px;
+
+    padding: 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    color: #94a3b8;
+
+    border-top: 1px solid rgba(255, 255, 255, .08);
+
+    font-size: 13px;
+
+}

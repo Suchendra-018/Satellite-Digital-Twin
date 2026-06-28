@@ -19,9 +19,16 @@ def load_test():
     )
 
 
-def load_demo():
+def load_demo_scaled():
     return pd.read_csv(
         DATASET_DIR / "demo_scaled.csv",
+        low_memory=False
+    )
+
+
+def load_demo_original():
+    return pd.read_csv(
+        DATASET_DIR / "demo.csv",
         low_memory=False
     )
 
@@ -58,9 +65,13 @@ if __name__ == "__main__":
 
     train = load_train()
     test = load_test()
+    demo_scaled = load_demo_scaled()
+    demo_original = load_demo_original()
 
     X_train, y_train = split_features_target(train)
     X_test, y_test = split_features_target(test)
 
     print("Train:", X_train.shape, y_train.shape)
     print("Test :", X_test.shape, y_test.shape)
+    print("Demo Scaled :", demo_scaled.shape)
+    print("Demo Original :", demo_original.shape)

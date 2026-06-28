@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Top Navbar Component
+   ========================================================================== */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 72px;
+    padding: 0 32px;
+
+    background-color: rgba(11, 17, 32, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    /* Safari support */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+/* Top Navigation Menu Links */
+.top-menu {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.top-menu a {
+    display: inline-block;
+    padding: 8px 16px;
+
+    color: #94a3b8;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+
+    border-radius: 6px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+/* Clean Hover State */
+.top-menu a:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Premium Top Active State (Matches your screenshot but cleans up lines/blue) */
+.top-menu a.active {
+    color: #ffffff;
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Live Badge Info */
+.live-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #22c55e;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.live-badge svg {
+    width: 8px;
+    height: 8px;
+}
