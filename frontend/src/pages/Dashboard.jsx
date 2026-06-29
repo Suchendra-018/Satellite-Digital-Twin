@@ -27,7 +27,7 @@ function Dashboard() {
             try {
 
                 const data = await getDashboardData();
-                console.log(data);
+                console.log("Dashboard API Response:", data);
                 setDashboardData(data);
                 
 

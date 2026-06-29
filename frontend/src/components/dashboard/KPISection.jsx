@@ -51,12 +51,7 @@ function KPISection({ data }) {
         <section className="kpi-grid">
 
             {cards.map((card) => (
-
-                <div
-                    className="kpi-card"
-                    key={card.title}
-                >
-
+                <div className="kpi-card" key={card.title}>
                     <div
                         className="kpi-icon"
                         style={{
@@ -67,10 +62,10 @@ function KPISection({ data }) {
                         {card.icon}
                     </div>
 
-                    <span>{card.title}</span>
-
-                    <h2>{card.value}</h2>
-
+                    <div className="kpi-content">
+                        <span>{card.title}</span>
+                        <h2>{card.value}</h2>
+                    </div>
                 </div>
 
             ))}
