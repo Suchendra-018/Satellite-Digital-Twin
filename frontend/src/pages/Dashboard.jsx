@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLive } from "../context/LiveContext";
 
 import Hero from "../components/dashboard/Hero";
 import KPISection from "../components/dashboard/KPISection";
@@ -16,7 +17,7 @@ import "./Dashboard.css";
 
 function Dashboard() {
   const [dashboardData, setDashboardData] = useState(null);
-
+  const { isLive } = useLive();
   useEffect(() => {
     let mounted = true;
 
@@ -32,6 +33,8 @@ function Dashboard() {
       }
     };
 
+    if (!isLive) return;
+
     fetchDashboard();
 
     const interval = setInterval(fetchDashboard, 1000);
@@ -40,7 +43,7 @@ function Dashboard() {
       mounted = false;
       clearInterval(interval);
     };
-  }, []);
+  }, [isLive]);
 
   if (!dashboardData) {
     return <h2>Loading Dashboard...</h2>;

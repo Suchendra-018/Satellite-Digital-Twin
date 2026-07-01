@@ -118,3 +118,28 @@ padding:0 18px;
 }
 
 }
+.live-badge{
+    border:none;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 16px;
+    border-radius:999px;
+    color:white;
+    font-weight:600;
+    transition:.25s;
+}
+
+.live{
+    background:#16a34a;
+}
+
+.paused{
+    background:#ca8a04;
+}
+
+.live:hover,
+.paused:hover{
+    transform:translateY(-1px);
+}

@@ -4,8 +4,12 @@ import { NavLink } from "react-router-dom";
 import { FaCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
+import { useLive } from "../../context/LiveContext";
+
 function Navbar() {
   const [utcTime, setUtcTime] = useState("");
+
+  const { isLive, toggleLive } = useLive();
 
   useEffect(() => {
     const updateClock = () => {
@@ -27,10 +31,14 @@ function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar-left">
-        <div className="live-badge">
+        <button
+          className={`live-badge ${isLive ? "live" : "paused"}`}
+          onClick={toggleLive}
+        >
           <FaCircle />
-          LIVE
-        </div>
+
+          {isLive ? "LIVE • Pause" : "PAUSED • Play"}
+        </button>
 
         <nav className="top-menu">
           <NavLink to="/dashboard">Dashboard</NavLink>

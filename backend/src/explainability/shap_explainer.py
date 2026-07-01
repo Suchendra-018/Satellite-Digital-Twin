@@ -4,12 +4,15 @@ import joblib
 import pandas as pd
 import shap
 
-from src.data.dataset import FEATURE_COLUMNS
+from src.data.dataset import (
+    FEATURE_COLUMNS,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 MODEL_PATH = PROJECT_ROOT / "saved_models" / "xgboost.pkl"
+SCALER_PATH = PROJECT_ROOT / "saved_models" / "scaler.pkl"
 
 
 class SHAPExplainer:
@@ -18,10 +21,14 @@ class SHAPExplainer:
     """
 
     def __init__(self):
+
         self.model = joblib.load(MODEL_PATH)
+        self.scaler = joblib.load(SCALER_PATH)
+
         self.explainer = shap.TreeExplainer(self.model)
 
     def _prepare(self, sample):
+
         if isinstance(sample, dict):
             sample = pd.DataFrame([sample])
 
@@ -38,9 +45,20 @@ class SHAPExplainer:
 
         return sample.astype(float)
 
+    def _scale(self, sample):
+
+        sample = sample.copy()
+
+        sample[FEATURE_COLUMNS] = self.scaler.transform(
+            sample[FEATURE_COLUMNS]
+        )
+
+        return sample
+
     def explain(self, sample):
 
         sample = self._prepare(sample)
+        sample = self._scale(sample)
 
         shap_values = self.explainer.shap_values(sample)
 
@@ -53,6 +71,7 @@ class SHAPExplainer:
             FEATURE_COLUMNS,
             shap_values[0],
         ):
+
             feature_importance.append(
                 {
                     "feature": feature,
@@ -77,9 +96,9 @@ shap_explainer = SHAPExplainer()
 
 if __name__ == "__main__":
 
-    from src.data.dataset import load_demo_scaled
+    from src.data.dataset import load_demo_original
 
-    sample = load_demo_scaled().iloc[[0]]
+    sample = load_demo_original().iloc[[0]]
 
     explanation = shap_explainer.explain(sample)
 

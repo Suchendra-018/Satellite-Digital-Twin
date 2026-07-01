@@ -8,6 +8,7 @@ import Simulation from "../pages/Simulation";
 import AITwin from "../pages/AITwin";
 import Security from "../pages/Security";
 import NotFound from "../pages/NotFound";
+import ManualPrediction from "../pages/ManualPrediction";
 
 function AppRoutes() {
   return (
@@ -20,6 +21,7 @@ function AppRoutes() {
           <Route path="/simulation" element={<Simulation />} />
           <Route path="/ai-twin" element={<AITwin />} />
           <Route path="/security" element={<Security />} />
+          <Route path="/manual-prediction" element={<ManualPrediction />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

@@ -2,6 +2,7 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
+from shap import sample
 import tensorflow as tf
 
 from src.data.dataset import FEATURE_COLUMNS
@@ -15,6 +16,7 @@ RF_MODEL = MODEL_DIR / "random_forest.pkl"
 XGB_MODEL = MODEL_DIR / "xgboost.pkl"
 LSTM_MODEL = MODEL_DIR / "lstm.keras"
 
+SCALER = MODEL_DIR / "scaler.pkl"
 
 CLASS_NAMES = {
     0: "Normal",
@@ -30,6 +32,8 @@ CLASS_NAMES = {
 class Predictor:
 
     def __init__(self):
+        self.scaler = joblib.load(SCALER)
+
         self.rf = joblib.load(RF_MODEL)
         self.xgb = joblib.load(XGB_MODEL)
         self.lstm = tf.keras.models.load_model(LSTM_MODEL)
@@ -48,10 +52,19 @@ class Predictor:
             sample[col] = pd.to_numeric(sample[col], errors="coerce")
 
         return sample.astype(float)
+    
+    def _scale(self, sample):
+        sample = sample.copy()
+
+        sample[FEATURE_COLUMNS] = self.scaler.transform(
+        sample[FEATURE_COLUMNS]
+    )
+        return sample
 
     def predict(self, sample, model="xgb"):
 
         sample = self._prepare(sample)
+        sample = self._scale(sample)
 
         model = model.lower()
 
@@ -115,10 +128,8 @@ class Predictor:
 
 if __name__ == "__main__":
 
-    from src.data.dataset import load_demo_scaled
-
+    from src.data.dataset import load_demo_original
     predictor = Predictor()
-
-    sample = load_demo_scaled().iloc[[0]]
+    sample = load_demo_original().iloc[[0]]
 
     print(predictor.compare_models(sample))

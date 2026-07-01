@@ -8,6 +8,7 @@ import {
 import { FaSatelliteDish, FaRobot, FaSatellite } from "react-icons/fa";
 
 import { NavLink } from "react-router-dom";
+import { FaKeyboard } from "react-icons/fa";
 
 import "./Sidebar.css";
 
@@ -26,6 +27,11 @@ const menu = [
     name: "AI Twin",
     icon: <FaRobot />,
     path: "/ai-twin",
+  },
+  {
+    name: "Manual Prediction",
+    icon: <FaKeyboard />,
+    path: "/manual-prediction",
   },
   {
     name: "Analytics",

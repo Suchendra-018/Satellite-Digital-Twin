@@ -1,9 +1,5 @@
 from src.models.predictor import Predictor
-from src.data.dataset import (
-    load_demo_scaled,
-    load_demo_original,
-)
-
+from src.data.dataset import load_demo_original
 
 class DashboardService:
 
@@ -30,7 +26,7 @@ class DashboardService:
     def __init__(self):
         self.predictor = Predictor()
 
-        self.demo_scaled = load_demo_scaled()
+        
         self.demo_original = load_demo_original()
 
         self.index = 0
@@ -41,14 +37,11 @@ class DashboardService:
         if self.index >= len(self.demo_original):
             self.index = 0
 
-        scaled_sample = self.demo_scaled.iloc[[self.index]]
         original_sample = self.demo_original.iloc[[self.index]]
-
         prediction = self.predictor.predict(
-            scaled_sample,
-            model="xgb",
+        original_sample,
+        model="xgb",
         )
-
         telemetry = original_sample.iloc[0].to_dict()
 
         fault_name = prediction["fault_name"]

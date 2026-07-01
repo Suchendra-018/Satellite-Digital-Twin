@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLive } from "../context/LiveContext";
 
 import { getDashboardData } from "../services/dashboardService";
 
@@ -9,7 +10,7 @@ import SubsystemHealth from "../components/dashboard/SubsystemHealth";
 
 function AITwin() {
   const [data, setData] = useState(null);
-
+  const { isLive } = useLive();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -20,12 +21,14 @@ function AITwin() {
       }
     };
 
+    if (!isLive) return;
+
     fetchData();
 
     const timer = setInterval(fetchData, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [isLive]);
 
   if (!data) return <h2>Loading AI Twin...</h2>;
 

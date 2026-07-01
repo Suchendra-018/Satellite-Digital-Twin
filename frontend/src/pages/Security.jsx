@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-
+import { useLive } from "../context/LiveContext";
 import { FaShieldAlt, FaLock, FaWifi, FaServer } from "react-icons/fa";
 
 function Security() {
   const [time, setTime] = useState("");
+  const { isLive } = useLive();
 
   useEffect(() => {
     const update = () => {
@@ -15,7 +16,7 @@ function Security() {
     const timer = setInterval(update, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [isLive]);
 
   const cards = [
     {
@@ -116,6 +117,73 @@ function Security() {
           <li>✓ No Intrusion Detected</li>
         </ul>
       </div>
+
+      <div
+        style={{
+          marginTop: 25,
+          background: "#111827",
+          borderRadius: 18,
+          border: "1px solid rgba(255,255,255,.08)",
+          padding: 25,
+        }}
+      >
+  <h2
+    style={{
+      color: "white",
+      marginBottom: 20,
+    }}
+  >
+    Live Security Monitor
+  </h2>
+
+  <table
+    style={{
+      width: "100%",
+      borderCollapse: "collapse",
+      color: "#cbd5e1",
+    }}
+  >
+    <thead>
+      <tr>
+        <th align="left">Module</th>
+        <th align="left">Status</th>
+        <th align="left">Risk</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>Telemetry Link</td>
+        <td style={{ color: "#22c55e" }}>ONLINE</td>
+        <td>Low</td>
+      </tr>
+
+      <tr>
+        <td>AI Prediction Engine</td>
+        <td style={{ color: "#22c55e" }}>Verified</td>
+        <td>Low</td>
+      </tr>
+
+      <tr>
+        <td>Ground Station</td>
+        <td style={{ color: "#22c55e" }}>Connected</td>
+        <td>Low</td>
+      </tr>
+
+      <tr>
+        <td>Authentication</td>
+        <td style={{ color: "#22c55e" }}>Active</td>
+        <td>Low</td>
+      </tr>
+
+      <tr>
+        <td>Firewall</td>
+        <td style={{ color: "#22c55e" }}>Protected</td>
+        <td>Low</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
     </>
   );
 }
