@@ -2,17 +2,14 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
-
 from lime.lime_tabular import LimeTabularExplainer
 
 from src.data.dataset import (
     FEATURE_COLUMNS,
-    load_train_scaled,
+    load_train,
 )
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-
 MODEL_PATH = PROJECT_ROOT / "saved_models" / "random_forest.pkl"
 
 
@@ -22,7 +19,7 @@ class LIMEExplainer:
 
         self.model = joblib.load(MODEL_PATH)
 
-        train = load_train_scaled()
+        train = load_train()
 
         X_train = train[FEATURE_COLUMNS]
 
