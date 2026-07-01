@@ -462,6 +462,13 @@ http://localhost:5173
 # 👨‍💻 Team
 
 **Samsung Innovation Campus (SIC)**
+This project was developed as part of the **Samsung Innovation Campus (SIC)** program.
+
+- **Suchendra A**
+- **Syed Ahemed**
+- **Vijay**
+
+---
 
 Project: **Satellite Digital Twin using AI & Machine Learning & Deep Learning**
 
