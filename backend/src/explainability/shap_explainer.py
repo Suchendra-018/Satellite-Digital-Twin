@@ -1,13 +1,11 @@
 from pathlib import Path
 
 import joblib
+import numpy as np
 import pandas as pd
 import shap
 
-from src.data.dataset import (
-    FEATURE_COLUMNS,
-)
-
+from src.data.dataset import FEATURE_COLUMNS
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
@@ -23,6 +21,7 @@ class SHAPExplainer:
     def __init__(self):
 
         self.model = joblib.load(MODEL_PATH)
+
         self.scaler = joblib.load(SCALER_PATH)
 
         self.explainer = shap.TreeExplainer(self.model)
@@ -58,18 +57,47 @@ class SHAPExplainer:
     def explain(self, sample):
 
         sample = self._prepare(sample)
+
         sample = self._scale(sample)
+
+        prediction = int(
+            self.model.predict(sample)[0]
+        )
 
         shap_values = self.explainer.shap_values(sample)
 
+        # -----------------------------
+        # Handle different SHAP versions
+        # -----------------------------
+
         if isinstance(shap_values, list):
-            shap_values = shap_values[0]
+
+            values = np.array(shap_values[prediction][0])
+
+        elif isinstance(shap_values, np.ndarray):
+
+            if shap_values.ndim == 3:
+
+                # (samples, features, classes)
+                values = shap_values[0, :, prediction]
+
+            elif shap_values.ndim == 2:
+
+                values = shap_values[0]
+
+            else:
+
+                values = shap_values.flatten()
+
+        else:
+
+            values = np.array(shap_values).flatten()
 
         feature_importance = []
 
         for feature, value in zip(
             FEATURE_COLUMNS,
-            shap_values[0],
+            values,
         ):
 
             feature_importance.append(
@@ -86,6 +114,7 @@ class SHAPExplainer:
         )
 
         return {
+            "prediction": prediction,
             "top_features": feature_importance[:10],
             "all_features": feature_importance,
         }
@@ -102,9 +131,12 @@ if __name__ == "__main__":
 
     explanation = shap_explainer.explain(sample)
 
+    print("\nPrediction:", explanation["prediction"])
+
     print("\nTop SHAP Features\n")
 
     for item in explanation["top_features"]:
+
         print(
             f"{item['feature']:<35}"
             f"{item['impact']:>10}"
