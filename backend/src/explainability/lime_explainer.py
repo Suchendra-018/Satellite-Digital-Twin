@@ -5,36 +5,102 @@ import pandas as pd
 
 from lime.lime_tabular import LimeTabularExplainer
 
-from src.data.dataset import load_train, load_test, split_features_target
+from src.data.dataset import (
+    FEATURE_COLUMNS,
+    load_train_scaled,
+)
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-MODEL = PROJECT_ROOT / "saved_models" / "random_forest.pkl"
-REPORTS = PROJECT_ROOT / "reports"
+MODEL_PATH = PROJECT_ROOT / "saved_models" / "random_forest.pkl"
 
-REPORTS.mkdir(exist_ok=True)
 
-model = joblib.load(MODEL)
+class LIMEExplainer:
 
-train = load_train()
-test = load_test()
+    def __init__(self):
 
-X_train, y_train = split_features_target(train)
-X_test, y_test = split_features_target(test)
+        self.model = joblib.load(MODEL_PATH)
 
-explainer = LimeTabularExplainer(
-    training_data=X_train.values,
-    feature_names=X_train.columns.tolist(),
-    class_names=[str(i) for i in sorted(y_train.unique())],
-    mode="classification"
-)
+        train = load_train_scaled()
 
-exp = explainer.explain_instance(
-    X_test.iloc[0].values,
-    model.predict_proba,
-    num_features=10
-)
+        X_train = train[FEATURE_COLUMNS]
 
-exp.save_to_file(REPORTS / "lime_explanation.html")
+        self.explainer = LimeTabularExplainer(
+            training_data=X_train.values,
+            feature_names=FEATURE_COLUMNS,
+            class_names=[
+                "Normal",
+                "Battery Degradation",
+                "Communication Fault",
+                "Power Anomaly",
+                "Reaction Wheel Fault",
+                "Sensor Fault",
+                "Thermal Fault",
+            ],
+            mode="classification",
+            discretize_continuous=True,
+        )
 
-print("LIME report generated.")
+    def _prepare(self, sample):
+
+        if isinstance(sample, dict):
+            sample = pd.DataFrame([sample])
+
+        elif isinstance(sample, pd.Series):
+            sample = sample.to_frame().T
+
+        sample = sample[FEATURE_COLUMNS].copy()
+
+        for col in FEATURE_COLUMNS:
+            sample[col] = pd.to_numeric(
+                sample[col],
+                errors="coerce",
+            )
+
+        return sample.astype(float)
+
+    def explain(self, sample):
+
+        sample = self._prepare(sample)
+
+        explanation = self.explainer.explain_instance(
+            sample.iloc[0].values,
+            self.model.predict_proba,
+            num_features=10,
+        )
+
+        features = []
+
+        for feature, weight in explanation.as_list():
+
+            features.append(
+                {
+                    "feature": feature,
+                    "impact": round(float(weight), 5),
+                }
+            )
+
+        return {
+            "prediction": int(
+                self.model.predict(sample)[0]
+            ),
+            "top_features": features,
+        }
+
+
+lime_explainer = LIMEExplainer()
+
+
+if __name__ == "__main__":
+
+    from src.data.dataset import load_demo_scaled
+
+    sample = load_demo_scaled().iloc[[0]]
+
+    result = lime_explainer.explain(sample)
+
+    print("\nTop LIME Features\n")
+
+    for item in result["top_features"]:
+        print(item)

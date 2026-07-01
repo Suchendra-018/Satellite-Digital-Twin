@@ -1,23 +1,98 @@
-@keyframes fadeIn {
-
-    from {
-
-        opacity: 0;
-        transform: translateY(15px);
-
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(18px);
     }
-
-    to {
-
-        opacity: 1;
-        transform: translateY(0);
-
+    to{
+        opacity:1;
+        transform:translateY(0);
     }
-
 }
 
-.fade-in {
+@keyframes slideLeft{
+    from{
+        opacity:0;
+        transform:translateX(-25px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
 
-    animation: fadeIn .5s ease;
+@keyframes slideRight{
+    from{
+        opacity:0;
+        transform:translateX(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
 
+@keyframes scaleIn{
+    from{
+        opacity:0;
+        transform:scale(.95);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+        opacity:1;
+    }
+
+    50%{
+        transform:scale(1.08);
+        opacity:.75;
+    }
+
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-6px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+}
+
+.fade-in{
+    animation:fadeIn .5s ease;
+}
+
+.slide-left{
+    animation:slideLeft .5s ease;
+}
+
+.slide-right{
+    animation:slideRight .5s ease;
+}
+
+.scale-in{
+    animation:scaleIn .35s ease;
+}
+
+.pulse{
+    animation:pulse 1.4s infinite;
+}
+
+.float{
+    animation:float 3s ease-in-out infinite;
 }

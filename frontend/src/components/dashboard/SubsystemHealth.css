@@ -1,79 +1,90 @@
 .subsystem-health {
-
     background: #111827;
-
-    border: 1px solid rgba(255, 255, 255, .08);
-
+    border: 1px solid rgba(255,255,255,.08);
     border-radius: 18px;
-
-    padding: 22px;
-
+    padding: 24px;
     min-height: 340px;
+}
+
+.subsystem-header{
+    margin-bottom:22px;
+}
+
+.subsystem-header h3{
+    color:#fff;
+    font-size:20px;
+    margin:0;
+}
+
+.subsystem-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+}
+
+.system-card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.circle{
+    width:88px;
+    height:88px;
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+
+    margin-bottom:14px;
+
+    transition:.3s;
+}
+
+.circle:hover{
+    transform:scale(1.05);
+}
+
+.circle-inner{
+    width:68px;
+    height:68px;
+
+    border-radius:50%;
+
+    background:#0f172a;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:#fff;
+    font-size:16px;
+    font-weight:700;
+}
+
+.system-card span{
+    color:#cbd5e1;
+    font-size:14px;
+    font-weight:600;
+    text-align:center;
+}
+
+@media(max-width:900px){
+
+.subsystem-grid{
+grid-template-columns:repeat(2,1fr);
+}
 
 }
 
-.subsystem-header {
+@media(max-width:600px){
 
-    margin-bottom: 25px;
-
+.subsystem-grid{
+grid-template-columns:1fr;
 }
-
-.subsystem-header h3 {
-
-    color: white;
-
-    font-size: 20px;
-
-}
-
-.subsystem-grid {
-
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 20px;
-
-}
-
-.system-card {
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-}
-
-.circle {
-
-    width: 72px;
-
-    height: 72px;
-
-    border-radius: 50%;
-
-    border: 6px solid #22c55e;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    color: white;
-
-    font-weight: 600;
-
-    margin-bottom: 12px;
-
-}
-
-.system-card span {
-
-    color: #cbd5e1;
-
-    font-size: 14px;
 
 }

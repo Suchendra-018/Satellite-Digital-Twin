@@ -1,83 +1,84 @@
 .hero {
-    width: 100%;
-    padding: 40px 0 25px;
+  width: 100%;
+  padding: 40px 0 30px;
 }
 
 .hero-content {
-    max-width: 700px;
+  width: 100%;
 }
 
 .hero-badge {
-
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    padding: 8px 16px;
-
-    border-radius: 30px;
-
-    background: #111827;
-
-    color: #22c55e;
-
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1px;
-
-    margin-bottom: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 30px;
+  background: #111827;
+  color: #22c55e;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
 }
 
 .hero h1 {
-
-    font-size: 58px;
-    line-height: 1.1;
-
-    margin-bottom: 20px;
-
-    color: white;
+  color: white;
+  font-size: 56px;
+  line-height: 1.1;
+  margin: 0;
 }
 
 .hero h1 span {
-
-    color: #2563eb;
-
+  color: #3b82f6;
 }
 
 .hero p {
-
-    color: #94a3b8;
-
-    font-size: 18px;
-
-    line-height: 1.8;
-
-    margin-bottom: 35px;
-
-    max-width: 620px;
+  margin-top: 20px;
+  margin-bottom: 35px;
+  color: #94a3b8;
+  font-size: 18px;
+  line-height: 1.8;
+  max-width: 760px;
 }
 
-.hero-btn {
-
-    padding: 15px 28px;
-
-    border: none;
-
-    border-radius: 14px;
-
-    background: #2563eb;
-
-    color: white;
-
-    font-size: 15px;
-
-    cursor: pointer;
-
-    transition: .3s;
+.hero-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 18px;
 }
 
-.hero-btn:hover {
+.hero-item {
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 18px;
+  transition: 0.25s;
+}
 
-    background: #3b82f6;
+.hero-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(59, 130, 246, 0.45);
+}
 
+.hero-item span {
+  display: block;
+  color: #94a3b8;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.hero-item strong {
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 38px;
+  }
+
+  .hero-info {
+    grid-template-columns: 1fr 1fr;
+  }
 }

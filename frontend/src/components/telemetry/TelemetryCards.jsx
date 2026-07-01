@@ -1,47 +1,69 @@
 import "./TelemetryCards.css";
 
 function TelemetryCards({ data }) {
-    if (!data || !data.telemetry) return null;
+  if (!data?.telemetry) return null;
 
-    const telemetry = data.telemetry;
+  const t = data.telemetry;
 
-    const cards = [
-        {
-            title: "Bus Voltage",
-            value: `${telemetry["BusVoltage (V)"].toFixed(2)} V`
-        },
-        {
-            title: "Battery Temp",
-            value: `${telemetry["BatteryTemperature (°C)"].toFixed(1)} °C`
-        },
-        {
-            title: "Battery SOC",
-            value: `${telemetry["BatterySOC (%)"].toFixed(1)} %`
-        },
-        {
-            title: "CPU Temp",
-            value: `${telemetry["CPUTemperature (°C)"].toFixed(1)} °C`
-        },
-        {
-            title: "Signal Strength",
-            value: `${telemetry["SignalStrength (dBm)"]} dBm`,
-        },
-        {
-            title: "Wheel RPM",
-            value: `${telemetry["WheelRPM (RPM)"]} RPM`,
-        },
-    ];
+  const value = (key, digits = 2, unit = "") => {
+    const v = t[key];
 
-    return (
-        <section className="telemetry-cards">
-            {cards.map((item) => (
-                <div className="telemetry-card" key={item.title}>
-                    <span>{item.title}</span>
-                    <h3>{item.value}</h3>
-                </div>
-            ))}
-        </section>
-    );
+    if (v === undefined || v === null) {
+      return "--";
+    }
+
+    if (typeof v === "number") {
+      return `${v.toFixed(digits)}${unit}`;
+    }
+
+    return `${v}${unit}`;
+  };
+
+  const cards = [
+    {
+      title: "Bus Voltage",
+      value: value("BusVoltage (V)", 2, " V"),
+    },
+    {
+      title: "Battery Temp",
+      value: value("BatteryTemperature (°C)", 1, " °C"),
+    },
+    {
+      title: "Battery SOC",
+      value: value("BatterySOC (%)", 1, " %"),
+    },
+    {
+      title: "CPU Temp",
+      value: value("CPUTemperature (°C)", 1, " °C"),
+    },
+    {
+      title: "CPU Usage",
+      value: value("CPUUsage (%)", 1, " %"),
+    },
+    {
+      title: "Signal Strength",
+      value: value("SignalStrength (dBm)", 0, " dBm"),
+    },
+    {
+      title: "Wheel RPM",
+      value: value("WheelRPM (RPM)", 0, " RPM"),
+    },
+    {
+      title: "Altitude",
+      value: value("Altitude (km)", 2, " km"),
+    },
+  ];
+
+  return (
+    <section className="telemetry-cards">
+      {cards.map((card) => (
+        <div className="telemetry-card" key={card.title}>
+          <span>{card.title}</span>
+          <h3>{card.value}</h3>
+        </div>
+      ))}
+    </section>
+  );
 }
 
 export default TelemetryCards;

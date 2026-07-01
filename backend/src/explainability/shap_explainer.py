@@ -3,43 +3,90 @@ from pathlib import Path
 import joblib
 import pandas as pd
 import shap
-import matplotlib.pyplot as plt
 
-from src.data.dataset import load_test, split_features_target
+from src.data.dataset import FEATURE_COLUMNS
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-MODEL = PROJECT_ROOT / "saved_models" / "random_forest.pkl"
-REPORTS = PROJECT_ROOT / "reports"
+MODEL_PATH = PROJECT_ROOT / "saved_models" / "xgboost.pkl"
 
-REPORTS.mkdir(exist_ok=True)
 
-model = joblib.load(MODEL)
+class SHAPExplainer:
+    """
+    Generates SHAP explanations for a single telemetry sample.
+    """
 
-test = load_test()
+    def __init__(self):
+        self.model = joblib.load(MODEL_PATH)
+        self.explainer = shap.TreeExplainer(self.model)
 
-X_test, y_test = split_features_target(test)
+    def _prepare(self, sample):
+        if isinstance(sample, dict):
+            sample = pd.DataFrame([sample])
 
-sample = X_test.sample(500, random_state=42)
+        elif isinstance(sample, pd.Series):
+            sample = sample.to_frame().T
 
-explainer = shap.TreeExplainer(model)
+        sample = sample[FEATURE_COLUMNS].copy()
 
-shap_values = explainer.shap_values(sample)
+        for col in FEATURE_COLUMNS:
+            sample[col] = pd.to_numeric(
+                sample[col],
+                errors="coerce",
+            )
 
-plt.figure()
+        return sample.astype(float)
 
-shap.summary_plot(
-    shap_values,
-    sample,
-    show=False
-)
+    def explain(self, sample):
 
-plt.savefig(
-    REPORTS / "shap_summary.png",
-    dpi=300,
-    bbox_inches="tight"
-)
+        sample = self._prepare(sample)
 
-plt.close()
+        shap_values = self.explainer.shap_values(sample)
 
-print("SHAP report generated.")
+        if isinstance(shap_values, list):
+            shap_values = shap_values[0]
+
+        feature_importance = []
+
+        for feature, value in zip(
+            FEATURE_COLUMNS,
+            shap_values[0],
+        ):
+            feature_importance.append(
+                {
+                    "feature": feature,
+                    "impact": round(float(value), 5),
+                    "absolute_impact": round(abs(float(value)), 5),
+                }
+            )
+
+        feature_importance.sort(
+            key=lambda x: x["absolute_impact"],
+            reverse=True,
+        )
+
+        return {
+            "top_features": feature_importance[:10],
+            "all_features": feature_importance,
+        }
+
+
+shap_explainer = SHAPExplainer()
+
+
+if __name__ == "__main__":
+
+    from src.data.dataset import load_demo_scaled
+
+    sample = load_demo_scaled().iloc[[0]]
+
+    explanation = shap_explainer.explain(sample)
+
+    print("\nTop SHAP Features\n")
+
+    for item in explanation["top_features"]:
+        print(
+            f"{item['feature']:<35}"
+            f"{item['impact']:>10}"
+        )

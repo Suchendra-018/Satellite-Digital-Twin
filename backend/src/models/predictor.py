@@ -6,6 +6,7 @@ import tensorflow as tf
 
 from src.data.dataset import FEATURE_COLUMNS
 
+
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 MODEL_DIR = PROJECT_ROOT / "saved_models"
@@ -14,6 +15,16 @@ RF_MODEL = MODEL_DIR / "random_forest.pkl"
 XGB_MODEL = MODEL_DIR / "xgboost.pkl"
 LSTM_MODEL = MODEL_DIR / "lstm.keras"
 
+
+CLASS_NAMES = {
+    0: "Normal",
+    1: "Battery Degradation",
+    2: "Communication Fault",
+    3: "Power Anomaly",
+    4: "Reaction Wheel Fault",
+    5: "Sensor Fault",
+    6: "Thermal Fault",
+}
 
 
 class Predictor:
@@ -36,9 +47,7 @@ class Predictor:
         for col in FEATURE_COLUMNS:
             sample[col] = pd.to_numeric(sample[col], errors="coerce")
 
-        sample = sample.astype(float)
-
-        return sample
+        return sample.astype(float)
 
     def predict(self, sample, model="xgb"):
 
@@ -47,32 +56,69 @@ class Predictor:
         model = model.lower()
 
         if model == "rf":
-            return int(self.rf.predict(sample)[0])
+
+            probabilities = self.rf.predict_proba(sample)[0]
+            prediction = int(probabilities.argmax())
 
         elif model == "xgb":
-            return int(self.xgb.predict(sample)[0])
+
+            probabilities = self.xgb.predict_proba(sample)[0]
+            prediction = int(probabilities.argmax())
 
         elif model == "lstm":
 
-            x = sample.values.reshape(1, 1, len(FEATURE_COLUMNS))
+            x = sample.values.reshape(
+                1,
+                1,
+                len(FEATURE_COLUMNS),
+            )
 
-            pred = self.lstm.predict(x, verbose=0)
+            probabilities = self.lstm.predict(
+                x,
+                verbose=0,
+            )[0]
 
-            return int(pred.argmax())
+            prediction = int(probabilities.argmax())
 
         else:
-            raise ValueError("Model must be rf, xgb or lstm")
+            raise ValueError(
+                "Model must be rf, xgb or lstm"
+            )
+
+        confidence = float(probabilities.max() * 100)
+
+        probability_map = {
+            CLASS_NAMES[i]: round(float(probabilities[i]) * 100, 2)
+            for i in range(len(CLASS_NAMES))
+        }
+
+        return {
+            "fault_id": prediction,
+            "fault_name": CLASS_NAMES.get(
+                prediction,
+                "Unknown",
+            ),
+            "confidence": round(confidence, 2),
+            "probabilities": probability_map,
+        }
+
+    def compare_models(self, sample):
+
+        xgb = self.predict(sample, "xgb")
+        lstm = self.predict(sample, "lstm")
+
+        return {
+            "xgboost": xgb,
+            "lstm": lstm,
+        }
 
 
 if __name__ == "__main__":
 
     from src.data.dataset import load_demo_scaled
 
-    demo = load_demo_scaled()
-
-    sample = demo.iloc[[0]]
-
     predictor = Predictor()
 
-    print("Random Forest :", predictor.predict(sample, "rf"))
-    print("XGBoost       :", predictor.predict(sample, "xgb"))
+    sample = load_demo_scaled().iloc[[0]]
+
+    print(predictor.compare_models(sample))

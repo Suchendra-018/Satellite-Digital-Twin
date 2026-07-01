@@ -1,34 +1,48 @@
 import "./Hero.css";
 
 function Hero() {
-    return (
-        <section className="hero">
+  const date = new Date().toLocaleString();
 
-            <div className="hero-content">
+  return (
+    <section className="hero">
+      <div className="hero-content">
+        <span className="hero-badge">● SATELLITE DIGITAL TWIN</span>
 
-                <span className="hero-badge">
-                    ● MISSION CONTROL
-                </span>
+        <h1>
+          AI Powered
+          <br />
+          <span>CubeSat Mission Control</span>
+        </h1>
 
-                <h1>
-                    Your Mission,
-                    <br />
-                    Decoded in <span>Real-Time</span>
-                </h1>
+        <p>
+          Real-time telemetry • Fault Prediction • Digital Twin • XGBoost • LSTM
+          • Explainable AI
+        </p>
 
-                <p>
-                    Advanced monitoring, predictive AI, anomaly detection and Digital
-                    Twin technology for CubeSat health monitoring.
-                </p>
+        <div className="hero-info">
+          <div className="hero-item">
+            <span>Status</span>
+            <strong>ONLINE</strong>
+          </div>
 
-                <button className="hero-btn">
-                    Launch Mission Dashboard
-                </button>
+          <div className="hero-item">
+            <span>Mission</span>
+            <strong>CubeSat-1</strong>
+          </div>
 
-            </div>
+          <div className="hero-item">
+            <span>Mode</span>
+            <strong>NOMINAL</strong>
+          </div>
 
-        </section>
-    );
+          <div className="hero-item">
+            <span>Time</span>
+            <strong>{date}</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default Hero;

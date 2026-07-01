@@ -1,96 +1,98 @@
 .kpi-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(240px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
     margin: 32px 0;
 }
 
 .kpi-card {
+    position: relative;
+    overflow: hidden;
+
     background: linear-gradient(180deg, #131c2f 0%, #101827 100%);
     border: 1px solid rgba(59, 130, 246, 0.12);
     border-radius: 18px;
-    padding: 22px;
+
+    padding: 24px;
+
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    min-height: 170px;
-    transition: all 0.25s ease;
-    position: relative;
-    overflow: hidden;
+
+    transition: .3s ease;
 }
 
 .kpi-card::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg,
-            rgba(37, 99, 235, 0.06),
-            transparent 55%);
+    background: linear-gradient(
+        135deg,
+        rgba(59,130,246,.08),
+        transparent 55%
+    );
     pointer-events: none;
 }
 
 .kpi-card:hover {
     transform: translateY(-6px);
     border-color: #3b82f6;
-    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.18);
+    box-shadow: 0 16px 40px rgba(37,99,235,.18);
 }
 
 .kpi-icon {
-    width: 56px;
-    height: 56px;
+    width: 60px;
+    height: 60px;
     border-radius: 16px;
+
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: 24px;
-    margin-bottom: 22px;
+    align-items: center;
+
+    font-size: 26px;
+
+    margin-bottom: 20px;
 }
 
-.kpi-card span {
+.kpi-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.kpi-content span {
     color: #94a3b8;
     font-size: 13px;
     font-weight: 500;
-    letter-spacing: .3px;
+    letter-spacing: .5px;
 }
 
-.kpi-card h2 {
-    margin-top: 8px;
-    color: #ffffff;
+.kpi-content h2 {
+    color: white;
     font-size: 30px;
     font-weight: 700;
     line-height: 1.2;
+
+    margin: 0;
+
+    word-break: break-word;
 }
 
-.progress-line {
-    margin-top: 18px;
-    width: 100%;
-    height: 6px;
-    background: #1f2937;
-    border-radius: 999px;
-    overflow: hidden;
+@media (max-width:900px){
+
+.kpi-grid{
+grid-template-columns:repeat(2,1fr);
 }
 
-.progress-fill {
-    height: 100%;
-    border-radius: 999px;
 }
 
-@media (max-width: 1200px) {
-    .kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+@media (max-width:600px){
+
+.kpi-grid{
+grid-template-columns:1fr;
 }
 
-@media (max-width: 768px) {
-    .kpi-grid {
-        grid-template-columns: 1fr;
-    }
+.kpi-content h2{
+font-size:24px;
+}
 
-    .kpi-card {
-        min-height: 150px;
-    }
-
-    .kpi-card h2 {
-        font-size: 26px;
-    }
 }

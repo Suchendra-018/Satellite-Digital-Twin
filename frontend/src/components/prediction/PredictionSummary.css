@@ -1,99 +1,98 @@
 .prediction-summary {
-
     background: #111827;
-
-    border: 1px solid rgba(255, 255, 255, .08);
-
+    border: 1px solid rgba(255,255,255,.08);
     border-radius: 18px;
-
-    padding: 22px;
-
-    height: 340px;
-
-}
-
-.prediction-header {
-
-    margin-bottom: 25px;
-
-}
-
-.prediction-header h3 {
-
-    color: white;
-
-    font-size: 20px;
-
-}
-
-.prediction-status {
+    padding: 24px;
+    min-height: 340px;
 
     display: flex;
-
     flex-direction: column;
-
-    justify-content: center;
-
-    align-items: center;
-
-    text-align: center;
-
-    height: 170px;
-
 }
 
-.status-icon {
-
-    color: #22c55e;
-
-    font-size: 52px;
-
-    margin-bottom: 16px;
-
+.prediction-header{
+    margin-bottom:20px;
 }
 
-.prediction-status h2 {
-
-    color: white;
-
-    margin-bottom: 10px;
-
+.prediction-header h3{
+    color:#fff;
+    font-size:20px;
+    margin:0;
 }
 
-.prediction-status p {
+.prediction-status{
+    flex:1;
 
-    color: #94a3b8;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
 
-    font-size: 14px;
-
-    max-width: 240px;
-
+    text-align:center;
 }
 
-.prediction-footer {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    margin-top: 20px;
-
+.status-icon{
+    font-size:56px;
+    margin-bottom:18px;
 }
 
-.prediction-footer span {
-
-    display: block;
-
-    color: #94a3b8;
-
-    font-size: 12px;
-
+.prediction-status.normal .status-icon{
+    color:#22c55e;
 }
 
-.prediction-footer strong {
+.prediction-status.warning .status-icon{
+    color:#f59e0b;
+}
 
-    color: white;
+.prediction-status.critical .status-icon{
+    color:#ef4444;
+}
 
-    font-size: 16px;
+.prediction-status h2{
+    color:#fff;
+    font-size:28px;
+    margin:0 0 12px;
+}
+
+.prediction-status p{
+    color:#94a3b8;
+    font-size:14px;
+    line-height:1.6;
+    max-width:280px;
+    margin:0;
+}
+
+.prediction-footer{
+    margin-top:28px;
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+}
+
+.prediction-footer div{
+    background:#0f172a;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:12px;
+    padding:14px;
+}
+
+.prediction-footer span{
+    display:block;
+    color:#94a3b8;
+    font-size:12px;
+    margin-bottom:6px;
+}
+
+.prediction-footer strong{
+    color:#fff;
+    font-size:18px;
+    font-weight:700;
+}
+
+@media(max-width:768px){
+
+.prediction-footer{
+grid-template-columns:1fr;
+}
 
 }

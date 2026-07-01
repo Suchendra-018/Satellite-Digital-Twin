@@ -1,42 +1,70 @@
 import "./PredictionSummary.css";
-import { FaCheckCircle } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaExclamationTriangle,
+  FaTimesCircle,
+} from "react-icons/fa";
 
-function PredictionSummary() {
-    return (
-        <section className="prediction-summary">
+function PredictionSummary({ data }) {
+  if (!data) return null;
 
-            <div className="prediction-header">
-                <h3>AI Prediction Summary</h3>
-            </div>
+  const prediction = data.prediction ?? {};
 
-            <div className="prediction-status">
+  const fault = prediction.fault_name ?? "Unknown";
+  const confidence = prediction.confidence ?? "--";
+  const health = data.health_score ?? "--";
+  const alert = data.alert_level ?? "--";
 
-                <FaCheckCircle className="status-icon" />
+  let Icon = FaCheckCircle;
+  let statusClass = "normal";
 
-                <h2>Waiting for API</h2>
+  if (alert === "WARNING") {
+    Icon = FaExclamationTriangle;
+    statusClass = "warning";
+  }
 
-                <p>
-                    XGBoost prediction will appear here after backend integration.
-                </p>
+  if (alert === "CRITICAL") {
+    Icon = FaTimesCircle;
+    statusClass = "critical";
+  }
 
-            </div>
+  return (
+    <section className="prediction-summary">
+      <div className="prediction-header">
+        <h3>AI Prediction Summary</h3>
+      </div>
 
-            <div className="prediction-footer">
+      <div className={`prediction-status ${statusClass}`}>
+        <Icon className="status-icon" />
 
-                <div>
-                    <span>Model</span>
-                    <strong>XGBoost</strong>
-                </div>
+        <h2>{fault}</h2>
 
-                <div>
-                    <span>Confidence</span>
-                    <strong>--%</strong>
-                </div>
+        <p>Live fault prediction from the XGBoost Digital Twin.</p>
+      </div>
 
-            </div>
+      <div className="prediction-footer">
+        <div>
+          <span>Model</span>
+          <strong>XGBoost</strong>
+        </div>
 
-        </section>
-    );
+        <div>
+          <span>Confidence</span>
+          <strong>{confidence}%</strong>
+        </div>
+
+        <div>
+          <span>Health</span>
+          <strong>{health}%</strong>
+        </div>
+
+        <div>
+          <span>Alert</span>
+          <strong>{alert}</strong>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default PredictionSummary;

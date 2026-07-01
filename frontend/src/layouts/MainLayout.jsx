@@ -3,30 +3,25 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../components/layout/Sidebar";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+
 import "./MainLayout.css";
+
 function MainLayout() {
-    return (
-        <>
-            <Sidebar />
+  return (
+    <div className="layout">
+      <Sidebar />
 
-            <main
-                style={{
-                    marginLeft: "260px",
-                    minHeight: "100vh",
-                    background: "#050816",
-                }}
-            >
-                <Navbar />
+      <main className="main-content">
+        <Navbar />
 
-                <div className="page-content">
-                    <>
-                        <Outlet />
-                        <Footer />
-                    </>
-                </div>
-            </main>
-        </>
-    );
+        <div className="page-content">
+          <Outlet />
+        </div>
+
+        <Footer />
+      </main>
+    </div>
+  );
 }
 
 export default MainLayout;

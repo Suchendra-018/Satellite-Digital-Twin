@@ -1,9 +1,46 @@
-.page-content {
+.layout{
+    display:flex;
+    min-height:100vh;
+    background:#050816;
+}
 
-    padding: 32px;
+.main-content{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    min-height:100vh;
+    background:#050816;
 
-    max-width: 1600px;
+    display:flex;
+    flex-direction:column;
+}
 
-    margin: auto;
+.page-content{
+    flex:1;
+    width:100%;
+    max-width:1650px;
+
+    margin:0 auto;
+
+    padding:32px;
+}
+
+@media(max-width:1024px){
+
+.main-content{
+    margin-left:0;
+    width:100%;
+}
+
+.page-content{
+    padding:22px;
+}
+
+}
+
+@media(max-width:768px){
+
+.page-content{
+    padding:16px;
+}
 
 }

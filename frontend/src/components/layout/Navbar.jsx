@@ -2,44 +2,56 @@ import "./Navbar.css";
 
 import { NavLink } from "react-router-dom";
 import { FaCircle } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 function Navbar() {
-    return (
-        <header className="navbar">
+  const [utcTime, setUtcTime] = useState("");
 
-            <div className="navbar-left">
+  useEffect(() => {
+    const updateClock = () => {
+      setUtcTime(
+        new Date().toLocaleTimeString("en-GB", {
+          timeZone: "UTC",
+          hour12: false,
+        }) + " UTC",
+      );
+    };
 
-                <div className="live-badge">
-                    <FaCircle />
-                    LIVE
-                </div>
+    updateClock();
 
-                <nav className="top-menu">
+    const timer = setInterval(updateClock, 1000);
 
-                    <NavLink to="/dashboard">Dashboard</NavLink>
+    return () => clearInterval(timer);
+  }, []);
 
-                    <NavLink to="/ai-twin">AI Twin</NavLink>
+  return (
+    <header className="navbar">
+      <div className="navbar-left">
+        <div className="live-badge">
+          <FaCircle />
+          LIVE
+        </div>
 
-                    <NavLink to="/analytics">Analytics</NavLink>
+        <nav className="top-menu">
+          <NavLink to="/dashboard">Dashboard</NavLink>
 
-                    <NavLink to="/simulation">Simulation</NavLink>
+          <NavLink to="/ai-twin">AI Twin</NavLink>
 
-                    <NavLink to="/security">Security</NavLink>
+          <NavLink to="/analytics">Analytics</NavLink>
 
-                </nav>
+          <NavLink to="/simulation">Simulation</NavLink>
 
-            </div>
+          <NavLink to="/security">Security</NavLink>
+        </nav>
+      </div>
 
-            <div className="mission-status">
+      <div className="mission-status">
+        <span>Mission Time</span>
 
-                <span>Mission Time</span>
-
-                <strong>02:17:43 UTC</strong>
-
-            </div>
-
-        </header>
-    );
+        <strong>{utcTime}</strong>
+      </div>
+    </header>
+  );
 }
 
 export default Navbar;

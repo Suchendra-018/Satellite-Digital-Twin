@@ -4,16 +4,16 @@ import joblib
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-MODEL = PROJECT_ROOT / "saved_models" / "random_forest.pkl"
-REPORTS = PROJECT_ROOT / "reports"
+MODEL_PATH = PROJECT_ROOT / "saved_models" / "random_forest.pkl"
 
-REPORTS.mkdir(exist_ok=True)
+REPORT_DIR = PROJECT_ROOT / "reports"
+REPORT_DIR.mkdir(exist_ok=True)
 
-model = joblib.load(MODEL)
 
-FEATURES = [
+FEATURE_COLUMNS = [
     "OrbitPhase (%)",
     "Sunlight (0 or 1)",
     "BusVoltage (V)",
@@ -29,40 +29,66 @@ FEATURES = [
     "CPUTemperature (°C)",
     "SignalStrength (dBm)",
     "GyroMagnitude (deg/s)",
-    "Altitude (km)"
+    "Altitude (km)",
 ]
 
-importance = pd.DataFrame({
-    "Feature": FEATURES,
-    "Importance": model.feature_importances_
-})
 
-importance = importance.sort_values(
-    by="Importance",
-    ascending=False
-)
+def main():
 
-importance.to_csv(
-    REPORTS / "feature_importance.csv",
-    index=False
-)
+    print("\nLoading Random Forest Model...\n")
 
-plt.figure(figsize=(10,6))
+    model = joblib.load(MODEL_PATH)
 
-plt.barh(
-    importance["Feature"],
-    importance["Importance"]
-)
+    importance = pd.DataFrame(
+        {
+            "Feature": FEATURE_COLUMNS,
+            "Importance": model.feature_importances_,
+        }
+    )
 
-plt.gca().invert_yaxis()
+    importance = importance.sort_values(
+        by="Importance",
+        ascending=False,
+    )
 
-plt.tight_layout()
+    importance.to_csv(
+        REPORT_DIR / "feature_importance.csv",
+        index=False,
+    )
 
-plt.savefig(
-    REPORTS / "feature_importance.png",
-    dpi=300
-)
+    plt.figure(figsize=(12, 7))
 
-plt.close()
+    plt.barh(
+        importance["Feature"],
+        importance["Importance"],
+    )
 
-print("Feature importance generated.")
+    plt.gca().invert_yaxis()
+
+    plt.xlabel("Importance Score")
+    plt.ylabel("Telemetry Features")
+    plt.title("Random Forest Feature Importance")
+
+    plt.grid(
+        axis="x",
+        linestyle="--",
+        alpha=0.30,
+    )
+
+    plt.tight_layout()
+
+    plt.savefig(
+        REPORT_DIR / "feature_importance.png",
+        dpi=300,
+    )
+
+    plt.close()
+
+    print("\nTop 10 Important Features\n")
+    print(importance.head(10))
+
+    print(f"\nReports saved to:\n{REPORT_DIR}")
+
+
+if __name__ == "__main__":
+    main()

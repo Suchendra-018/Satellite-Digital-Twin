@@ -1,59 +1,82 @@
 .alert-list {
     background: #111827;
-    border: 1px solid rgba(255, 255, 255, .08);
+    border: 1px solid rgba(255,255,255,.08);
     border-radius: 18px;
-    padding: 22px;
+    padding: 24px;
     min-height: 420px;
-}
 
-.alert-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    flex-direction: column;
 }
 
-.alert-header h3 {
-    color: white;
-    font-size: 20px;
+.alert-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
 }
 
-.alert-header span {
-    color: #94a3b8;
-    font-size: 13px;
+.alert-header h3{
+    color:#fff;
+    margin:0;
+    font-size:20px;
 }
 
-.alert {
-    display: flex;
-    gap: 15px;
-    align-items: flex-start;
-    padding: 16px;
-    border-radius: 14px;
-    margin-bottom: 16px;
+.alert-header span{
+    color:#94a3b8;
+    font-size:13px;
 }
 
-.alert svg {
-    font-size: 20px;
-    margin-top: 3px;
+.alert{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+
+    padding:16px;
+    margin-bottom:14px;
+
+    border-radius:14px;
+
+    transition:.25s;
 }
 
-.warning {
-    background: rgba(245, 158, 11, .12);
-    color: #f59e0b;
+.alert:hover{
+    transform:translateX(4px);
 }
 
-.success {
-    background: rgba(34, 197, 94, .12);
-    color: #22c55e;
+.alert svg{
+    font-size:20px;
+    margin-top:3px;
+    flex-shrink:0;
 }
 
-.alert h4 {
-    color: white;
-    font-size: 15px;
-    margin-bottom: 4px;
+.alert h4{
+    color:#fff;
+    margin:0 0 4px;
+    font-size:15px;
+    font-weight:600;
 }
 
-.alert p {
-    color: #94a3b8;
-    font-size: 12px;
+.alert p{
+    color:#94a3b8;
+    margin:0;
+    font-size:12px;
+}
+
+.warning{
+    color:#f59e0b;
+    background:rgba(245,158,11,.12);
+    border-left:4px solid #f59e0b;
+}
+
+.success{
+    color:#22c55e;
+    background:rgba(34,197,94,.12);
+    border-left:4px solid #22c55e;
+}
+
+.critical{
+    color:#ef4444;
+    background:rgba(239,68,68,.12);
+    border-left:4px solid #ef4444;
 }
