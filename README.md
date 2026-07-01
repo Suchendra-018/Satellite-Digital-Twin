@@ -259,9 +259,52 @@ SATELLITE-DIGITAL-TWIN
 
 ---
 
-# 📊 Dataset
+# 📂 Dataset
 
-The project uses a CubeSat telemetry dataset containing normal operating conditions and multiple fault scenarios.
+The project uses telemetry datasets generated for CubeSat fault prediction. These datasets are used during preprocessing, model training, evaluation, and live dashboard simulation.
+
+| File | Description |
+|------|-------------|
+| `train.csv` | Original training telemetry dataset. |
+| `test.csv` | Original testing telemetry dataset. |
+| `train_balanced.csv` | Balanced training dataset used to reduce class imbalance. |
+| `train_scaled.csv` | Normalized training dataset used by the ML model. |
+| `test_scaled.csv` | Normalized testing dataset for evaluation. |
+| `demo.csv` | Sample telemetry data used for dashboard simulation and live visualization. |
+| `demo_scaled.csv` | Scaled version of the demo dataset used for model prediction. |
+
+### Telemetry Features
+
+The datasets contain satellite telemetry collected from different CubeSat subsystems, including:
+
+- Orbit Phase
+- Sunlight Status
+- Bus Voltage
+- Bus Current
+- Battery Voltage
+- Battery Temperature
+- Battery State of Charge (SOC)
+- Solar Voltage
+- Solar Current
+- Reaction Wheel RPM
+- Reaction Wheel Temperature
+- CPU Usage
+- CPU Temperature
+- Signal Strength
+- Gyroscope Magnitude
+- Altitude
+
+### Target Classes
+
+The AI model predicts one of the following satellite conditions:
+
+- ✅ Normal
+- 🔋 Battery Degradation
+- ⚡ Power Anomaly
+- 📡 Communication Fault
+- 🎯 Reaction Wheel Fault
+- 🌡 Thermal Fault
+- 📈 Sensor Fault
 
 ### Features
 
